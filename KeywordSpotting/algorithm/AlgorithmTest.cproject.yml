@@ -1,0 +1,66 @@
+project:
+  description: Record data or playback recorded data as algorithm input and record algorithm output data
+
+  packs:
+    - pack: ARM::CMSIS@^6.3.0
+    - pack: ARM::CMSIS-RTX@^5.9.1
+
+  connections:
+    - connect: SDS algorithm test demo
+      provides:
+        - CMSIS-RTOS2
+      consumes:
+        - SDS
+        - CMSIS_VIO
+        - STDIN
+        - STDOUT
+        - STDERR
+        - Heap: +65536
+
+  define:
+    - OS_IDLE_THREAD_NAME: \"Idle\"
+    - OS_TIMER_THREAD_NAME: \"Timer\"
+
+  groups:
+    - group: Documentation
+      files:
+        - file: ../README.md
+    - group: Application
+      files:
+        - file: sds_control.c
+        - file: sds_main.c
+        - file: algorithm_config.h
+        - file: algorithm_user.cpp
+        - file: data_in_user.c
+    - group: ML EI Port
+      files:
+        - file: ./ML/EI/Port/ei_classifier_porting.cpp
+        - file: ./ML/EI/Port/debug_log.cpp
+
+  components:
+    - component: CMSIS:OS Tick:SysTick
+    - component: CMSIS:RTOS2:Keil RTX5&Source
+
+  layers:
+    - layer: $SDSIO-Layer$
+      type:  SDSIO
+    - layer: $Board-Layer$
+      type:  Board
+    - layer: ML/EI/Layer/edgeimpulse.clayer.yml
+      type:  ML
+
+  output:
+    type:
+      - bin
+      - elf
+      - hex
+      - map
+
+  # Post-build commands to add header
+  executes:
+    - execute: Generate_trusted_bin
+      run: $ENV{STM32_PRG_PATH}/STM32_SigningTool_CLI.exe -bin $input$ -s -nk -of 0x80000000 -align -t fsbl -o $output$ -hv 2.3
+      input:
+        - $bin()$
+      output:
+        - $OutDir()$/Appli-trusted.bin
