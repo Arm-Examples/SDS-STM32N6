@@ -59,6 +59,7 @@ project:
   # Post-build commands to add header
   executes:
     - execute: Generate_trusted_bin
+      for-context: +STM32N6570-DK
       run: $ENV{STM32_PRG_PATH}/STM32_SigningTool_CLI.exe -bin $input$ -s -nk -of 0x80000000 -align -t fsbl -o $output$ -hv 2.3
       input:
         - $bin()$
