@@ -1,5 +1,10 @@
+[![License](https://img.shields.io/github/license/Arm-Examples/SDS-STM32N6?label)](https://github.com/Arm-Examples/SDS-STM32N6/blob/main/LICENSE)
+[![Build_AC6](https://img.shields.io/github/actions/workflow/status/Arm-Examples/SDS-STM32N6/Build_AC6.yml?logo=arm&logoColor=0091bd&label=Build%20examples%20with%20AC6)](https://github.com/Arm-Examples/SDS-STM32N6/tree/main/.github/workflows/Build_AC6.yml)
+[![Test_ST_KeywordSpotting](https://img.shields.io/github/actions/workflow/status/Arm-Examples/SDS-STM32N6/Test_ST_KeywordSpotting.yml?logo=arm&logoColor=0091bd&label=Test%20ST%20Keyword%20Spotting)](https://github.com/Arm-Examples/SDS-STM32N6/tree/main/.github/workflows/Test_ST_KeywordSpotting.yml)
+
 # SDS-STM32N6
-This repository contains SDS example projects for STMicroelectronics STM32N6.
+
+This repository contains [Synchronous Data Streaming (SDS)](https://github.com/ARM-software/SDS-Framework) example projects for STMicroelectronics STM32N6.
 
 ## Quick Start
 
@@ -25,6 +30,15 @@ The examples are configured for [Keil Studio for VS Code](https://www.keil.arm.c
 |---                                                 |---            |
 | [KeywordSpotting](./KeywordSpotting/README.md)     | SDS connection via USB to [STMicroelectronics STM32N6570-DK board](https://www.keil.arm.com/boards/stmicroelectronics-stm32n6570-dk-revc-f2017e0/features/). Implements keyword spotting algorithm with audio interface.  |
 
+## Continuous Integration (CI)
+
+The repository uses [GitHub Actions](.github/workflows) to test project build with AC6 and execute algorithm tests.
+Refer to [Understanding GitHub Actions](https://docs.github.com/en/actions/get-started/understand-github-actions) and [Arm FVPs](https://arm-software.github.io/AVH/main/infrastructure/html/avh_gh_actions.html) documentation for more information.
+
+| <div style="width:150px"> CI Workflow </div>                                   | Description |
+|---                                                                             |---  |
+| [Build_AC6](./.github/workflows/Build_AC6.yml)                                 | Use Arm Compiler for Embedded (AC6) to create binaries for different configuration of targets, build types, and boards. |
+| [Test_ST_KeywordSpotting](./.github/workflows/Test_ST_KeywordSpotting.yml)     | Build the binary for a keyword spotting algorithm and execute a regression test using an FVP model. Compare the original SDS recording with the newly generated recording produced during the simulator run. Store the build outputs and SDS recordings as workflow artifacts.   |
 
 ## STM32N6570-DK Board Setup
 
