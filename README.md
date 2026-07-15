@@ -49,7 +49,7 @@ Required ST tool:
 - [STM32CubeProgrammer 2.21.0](https://www.st.com/en/development-tools/stm32cubeprog.html)
     - STM32_SigningTool_CLI: Verify the environment variable `STM32_PRG_PATH` points to the folder that contains `STM32_SigningTool_CLI.exe`
 
-Open [FSBL_LRUN Example](./FSBL_LRUN/FSBL/) in VS Code:
+Open [FSBL_LRUN Example](./FSBL_LRUN/) in VS Code:
 
 - Select **ExtMemLoader** Target Set and click **Build** action button to generate the flash algorithm for STM32N6570-DK board.
 - Select **FSBL_Appli** Target Set:
