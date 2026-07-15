@@ -17,7 +17,7 @@ This repository contains [Synchronous Data Streaming (SDS)](https://github.com/A
     - Then choose an SDS example.
 4. The related tools and software packs are downloaded and installed. Review progress with *View - Output - CMSIS Solution*.
 5. In the CMSIS view, use the
-   [Action buttons](https://github.com/ARM-software/vscode-cmsis-csolution?tab=readme-ov-file#action-buttons) to build,
+   [Action buttons](https://github.com/Open-CMSIS-Pack/vscode-cmsis-solution?taq=readme#action-buttons) to build,
    load and debug the example on target hardware.
 6. Follow the instructions in the example README and use the SDS view to show, record, and playback data streams.
 
@@ -59,3 +59,9 @@ Open [FSBL_LRUN Example](./FSBL_LRUN/FSBL/) in VS Code:
         - Click **Views and More Actions** and click **Load application to target** to flash the FSBL binary to the STM32N6570-DK board.
         - Set the boot mode configuration in **flash mode** (BOOT1 switch position to 1-2) and reset board.
         - Configured `LD1_green` (GPIO PO.01) LED should blink (in Appli/Src/main.c).
+
+## Related
+
+- [Arm Examples - Edge AI and Machine Learning](https://github.com/Arm-Examples#edge-ai-and-machine-learning) contains several other examples that use SDS.
+- [SDS Framework - Documentation](https://arm-software.github.io/SDS-Framework/main/index.html).
+- [Report issues](https://github.com/ARM-software/SDS-Framework/issues) for this example on the SDS-Framework project page.
