@@ -4,11 +4,14 @@ This application is an example of using [**Edge Impulse Keyword Spotting ML algo
 It lets you record and play back real-world data streams on physical hardware, feeding
 them to your algorithm for testing. The data streams are stored in SDS data files.
 
+> Note: This keyword spotting detects keyword **Hello World**.
+
 ## Pre-Requisite
 
 To run this example:
 
 - Install [Keil Studio for VS Code](https://marketplace.visualstudio.com/items?itemName=Arm.keil-studio-pack) and run a Blinky example on the board to verify tool installation.
+- Install [Arm SDS for VS Code](https://marketplace.visualstudio.com/items?itemName=Arm.cmsis-sds).
 - Use `cpackget add ARM::SDS` to add the SDS Framework and [Setup the SDS Python utilities](https://arm-software.github.io/SDS-Framework/main/utilities.html#sdsio-server).
 - Setup the [Python environment](https://arm-software.github.io/SDS-Framework/main/utilities.html#setup) for running the SDS Utilities.
 
@@ -77,7 +80,9 @@ Build and run this project in VS Code by following these steps:
 1. Use **Manage Solution Settings** and select:
      - Target type **STM32N6570-DK**.
      - Project **DataTest** with Build Type **Debug**.
-2. Open in VS Code a Terminal window and start the [SDSIO-Server](https://arm-software.github.io/SDS-Framework/main/utilities.html#sdsio-server) with `sdsio-server usb` .
+2. In VS Code, start the [SDSIO-Server](https://arm-software.github.io/SDS-Framework/main/utilities.html#sdsio-server) using one of the following methods:
+     - Open the `Arm SDS` extension and click the `Connect SDSIO Monitor` button.
+     - Run `sdsio-server usb` in the Terminal.
 3. **Build Solution** to create an executable image.
 4. Connect a **USB cable** between the host **PC** and the **STLK (CN14)** USB connector on the **STM32N6570-DK** board.
 5. Connect a second **USB cable** between host **PC** and the **USB-C (CN18)** connector on the **STM32N6570-DK** board.
@@ -111,31 +116,37 @@ For executing the **recording** or **playback** test, follow the steps below:
 ### Recording
 
 To perform a recording, follow these steps:
-- To start recording, press the `R` key in the SDSIO-Server window, or press the **User** button on the board.
-- To stop recording, press the `S` key in the SDSIO-Server window, or press the **User** button on the board again.
+- To start recording, use one of the following methods:
+  - click the `Start Recording` button in the `Arm SDS` extension.
+  - press the `R` key in the VS Code Terminal running the SDSIO-Server.
+  - press the **User** button on the board.
+- To stop recording, use one of the following methods:
+  - click the `Stop IO (Playback/Recording)` button in the `Arm SDS` extension.
+  - press the `S` key in the VS Code Terminal running the SDSIO-Server.
+  - press the **User** button on the board again.
 
 **Output of SDSIO-Server during recording**
 
 ```txt
 >sdsio-server usb 
-SDSIO-Server v3.0.0
-Press 'Ctrl+C' or 'X' to exit.
+SDSIO-Server 3.x.y
+Press 'Ctrl+C' or 'X' to exit
 Working directory: ...\Arm-Examples\SDS-Examples\SDS-STM32N6\KeywordSpotting
-SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7.
+SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7
 SDSIO-Server waiting for USB SDSIO-Client...
-SDSIO-Client USB device connected.
-sdsFlags = 0x10000000.
+SDSIO-Client USB device connected
+sdsFlags = 0x10000000
 99% idle.
-SDSIO command: start recording ('R').
-sdsFlags = 0x90000000.
+SDSIO command: start recording ('R')
+sdsFlags = 0x90000000
 Record:   Test_In (Test_In.0.sds)
 Record:   Test_Out (Test_Out.0.sds)
-98% idle.
-SDSIO command: stop ('s').
-sdsFlags = 0x10000000.
+98% idle
+SDSIO command: stop ('s')
+sdsFlags = 0x10000000
 Closed:   Test_In (Test_In.0.sds)
 Closed:   Test_Out (Test_Out.0.sds)
-99% idle.
+99% idle
 ```
 
 **Application output in the Serial Monitor**
@@ -172,7 +183,9 @@ Validation passed
 ### Playback
 
 To perform a playback, follow these steps:
-- To start the playback, press the `P` key in the SDSIO-Server window.
+- To start playback, use one of the following methods:
+  - click the `Start Playback` button in the `Arm SDS` extension.
+  - press the `P` key in the VS Code Terminal running the SDSIO-Server.
 - The playback will stop automatically when it plays all the data from the SDS file.
 
 The stream `Test_In.<n>.sds` is read back and the algorithm processes this data.
@@ -183,22 +196,22 @@ The SDS file `Test_Out.<n>.p.sds` created during playback should be identical to
 
 ```txt
 >sdsio-server usb
-SDSIO-Server v3.0.0
-Press 'Ctrl+C' or 'X' to exit.
+SDSIO-Server 3.x.y
+Press 'Ctrl+C' or 'X' to exit
 Working directory: ...\Arm-Examples\SDS-Examples\SDS-STM32N6\KeywordSpotting
-SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7.
-SDSIO-Client USB device connected.
-sdsFlags = 0x10000000.
-99% idle.
-SDSIO command: start playback ('P').
-sdsFlags = 0xB0000000.
+SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7
+SDSIO-Client USB device connected
+sdsFlags = 0x10000000
+99% idle
+SDSIO command: start playback ('P')
+sdsFlags = 0xB0000000
 Playback: Test_In (Test_In.0.sds)
 Record:   Test_Out (Test_Out.0.p.sds)
-98% idle.
+98% idle
 Closed:   Test_In (Test_In.0.sds)
 Closed:   Test_Out (Test_Out.0.p.sds)
-sdsFlags = 0x30000000.
-99% idle.
+sdsFlags = 0x30000000
+99% idle
 ```
 
 **Application output in the Serial Monitor**
@@ -271,7 +284,9 @@ Build and run this project in VS Code using the following steps:
 1. Use **Manage Solution Settings** and select:
      - Target type **STM32N6570-DK**.
      - Project **AlgorithmTest** with Build Type **Debug**.
-2. Open in VS Code a Terminal window and start the [SDSIO-Server](https://arm-software.github.io/SDS-Framework/main/utilities.html#sdsio-server) with `sdsio-server usb` .
+2. In VS Code, start the [SDSIO-Server](https://arm-software.github.io/SDS-Framework/main/utilities.html#sdsio-server) using one of the following methods:
+     - Open the `Arm SDS` extension and click the `Connect SDSIO Monitor` button.
+     - Run `sdsio-server usb` in the Terminal.
 3. **Build Solution** to create an executable image.
 4. Connect a **USB cable** between the host **PC** and the **STLK (CN14)** USB connector on the **STM32N6570-DK** board.
 5. Connect a second **USB cable** between host **PC** and the **USB-C (CN18)** connector on the **STM32N6570-DK** board.
@@ -281,32 +296,39 @@ Build and run this project in VS Code using the following steps:
 ### Recording
 
 To perform a recording, follow these steps:
-- To start recording, press the `R` key in the SDSIO-Server window, or press the **User** button on the board.
-- To stop recording, press the `S` key in the SDSIO-Server window, or press the **User** button on the board again.
+- To start recording, use one of the following methods:
+  - click the `Start Recording` button in the `Arm SDS` extension.
+  - press the `R` key in the VS Code Terminal running the SDSIO-Server.
+  - press the **User** button on the board.
+- Say the `Hello World` keyword a few times.
+- To stop recording, use one of the following methods:
+  - click the `Stop IO (Playback/Recording)` button in the `Arm SDS` extension.
+  - press the `S` key in the VS Code Terminal running the SDSIO-Server.
+  - press the **User** button on the board again.
 
 **Output of SDSIO-Server during recording**
 
 ```txt
 >sdsio-server usb 
-SDSIO-Server v3.0.0
-Press 'Ctrl+C' or 'X' to exit.
+SDSIO-Server 3.x.y
+Press 'Ctrl+C' or 'X' to exit
 Working directory: ...\Arm-Examples\SDS-Examples\SDS-STM32N6\KeywordSpotting
-SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7.
+SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7
 SDSIO-Server waiting for USB SDSIO-Client...
-SDSIO-Client USB device connected.
-sdsFlags = 0x10000000.
-88% idle.
-86% idle.
-SDSIO command: start recording ('R').
-sdsFlags = 0x90000000.
+SDSIO-Client USB device connected
+sdsFlags = 0x10000000
+88% idle
+86% idle
+SDSIO command: start recording ('R')
+sdsFlags = 0x90000000
 Record:   ML_In (ML_In.0.sds)
 Record:   ML_Out (ML_Out.0.sds)
-86% idle.
-SDSIO command: stop ('s').
-sdsFlags = 0x10000000.
+86% idle
+SDSIO command: stop ('s')
+sdsFlags = 0x10000000
 Closed:   ML_In (ML_In.0.sds)
 Closed:   ML_Out (ML_Out.0.sds)
-87% idle.
+87% idle
 ```
 
 **Application output in the Serial Monitor**
@@ -337,7 +359,9 @@ Each run records two files: `ML_In.<n>.sds` and `ML_Out.<n>.sds` in the folder w
 ### Playback
 
 To perform a playback, follow these steps:
-- To start the playback, press the `P` key in the SDSIO-Server window.
+- To start playback, use one of the following methods:
+  - click the `Start Playback` button in the `Arm SDS` extension.
+  - press the `P` key in the VS Code Terminal running the SDSIO-Server.
 - The playback will stop automatically when it plays all the data from the SDS file.
 
 The stream `ML_In.<n>.sds` is read back and the algorithm processes this data.
@@ -348,22 +372,22 @@ The SDS file `ML_Out.<n>.p.sds` created during playback should be identical to t
 
 ```txt
 >sdsio-server usb
-SDSIO-Server v3.0.0
-Press 'Ctrl+C' or 'X' to exit.
+SDSIO-Server 3.x.y
+Press 'Ctrl+C' or 'X' to exit
 Working directory: ...\Arm-Examples\SDS-Examples\SDS-STM32N6\KeywordSpotting
-SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7.
+SDSIO command input: R=Record, P=playback, S/s=stop, T/t=reset, X/x=exit, A-H=set flags 0-7, a-h=clear flags 0-7
 SDSIO-Server waiting for USB SDSIO-Client...
-SDSIO-Client USB device connected.
-sdsFlags = 0x10000000.
-87% idle.
-SDSIO command: start playback ('P').
-sdsFlags = 0xB0000000.
+SDSIO-Client USB device connected
+sdsFlags = 0x10000000
+87% idle
+SDSIO command: start playback ('P')
+sdsFlags = 0xB0000000
 Playback: ML_In (ML_In.0.sds)
 Record:   ML_Out (ML_Out.0.p.sds)
 Closed:   ML_In (ML_In.0.sds)
 Closed:   ML_Out (ML_Out.0.p.sds)
-sdsFlags = 0x30000000.
-87% idle.
+sdsFlags = 0x30000000
+87% idle
 ```
 
 **Application output in the Serial Monitor**
@@ -427,20 +451,20 @@ SDSIO VSI interface initialized successfully
 ```txt
 Created by ...\Arm-Examples\SDS-Examples\ST\B-U585I-IOT02A\KeywordSpotting\Board\Corstone-300\vsi\python\arm_vsi3.py
 
-SDSIO VSI version 3.0.0
-SDSIO_FVP environment variable not set.
-Working directory: ...\Arm-Examples\SDS-Examples\ST\B-U585I-IOT02A\KeywordSpotting\algorithm\SDS Recordings.
-SDSIO configuration YAML: ...\Arm-Examples\SDS-Examples\ST\B-U585I-IOT02A\KeywordSpotting\algorithm.sdsio.yml.
-sdsFlags = 0xB0000000.
-Playback step 1/1: Play ML_In.0.sds.
+SDSIO VSI 3.x.y
+SDSIO_FVP environment variable not set
+Working directory: ...\Arm-Examples\SDS-Examples\ST\B-U585I-IOT02A\KeywordSpotting\algorithm\SDS Recordings
+SDSIO configuration YAML: ...\Arm-Examples\SDS-Examples\ST\B-U585I-IOT02A\KeywordSpotting\algorithm.sdsio.yml
+sdsFlags = 0xB0000000
+Playback step 1/1: Play ML_In.0.sds
 Playback: ML_In (ML_In.0.sds)
 Record:   ML_Out (ML_Out.0.p.sds)
 Closed:   ML_In (ML_In.0.sds)
 Closed:   ML_Out (ML_Out.0.p.sds)
-Playback complete - no more steps remaining.
-sdsFlags = 0x30000000.
-sdsFlags = 0x70000000.
-sdsFlags = 0x30000000.
+Playback complete - no more steps remaining
+sdsFlags = 0x30000000
+sdsFlags = 0x70000000
+sdsFlags = 0x30000000
 ```
 
 > **Notes:**

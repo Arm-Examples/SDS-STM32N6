@@ -11,19 +11,11 @@ solution:
 
   compiler: AC6 # select compiler for solution
 
-  # List of miscellaneous tool-specific controls
-  misc:
-    - for-compiler: AC6 # GDB requires DWARF 5, remove when using uVision Debugger
-      C-CPP:
-        - -gdwarf-5
-      ASM:
-        - -gdwarf-5
-
   # This is a CMSIS-Toolbox Reference Application that requires a compatible board layer
   # Refer to https://open-cmsis-pack.github.io/cmsis-toolbox/ReferenceApplications/ for more information
 
   packs:
-    - pack: ARM::SDS@^3.0.0-0
+    - pack: ARM::SDS@^3.1.0-0
     - pack: Keil::STM32N6570-DK_BSP
     - pack: Keil::STM32N6xx_DFP
     - pack: ARM::V2M_MPS3_SSE_300_BSP@^1.5.0
@@ -55,6 +47,7 @@ solution:
           start: 0x70100000
           size: 0x100000
           algorithm: ../FSBL_LRUN/ExtMemLoader.axf
+
     - type: SSE-300-U55
       board: V2M-MPS3-SSE-300-FVP
       device: SSE-300-MPS3
