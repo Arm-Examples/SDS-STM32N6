@@ -1,7 +1,9 @@
 sds:
-  name: ML Model Data Input
+  name: ML input
   description: Mono microphone with 16kHz sample rate
-  frequency: 16000
+  sample-frequency: 16000
   content:
-  - value: Mono
-    type: int16_t
+    - audio:
+        bit-depth: 16
+        channels: 1
+        format: pcm
